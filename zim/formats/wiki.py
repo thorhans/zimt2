@@ -214,8 +214,9 @@ class WikiParser(object):
 			| Rule(SUBSCRIPT, r'_\{(?!~)(.+?)\}', descent=descent)
 			| Rule(SUPERSCRIPT, r'\^\{(?!~)(.+?)\}', descent=descent)
 			| Rule(STRIKE, r'~~(?!~)(.+?)~~', descent=descent)
+			#T+ # Note that this rule appears again below.
 			#T! | Rule(VERBATIM, r"''(?!')(.+?)''")
-      | Rule(VERBATIM, r"‹(?!')(.+?)›")
+			| Rule(VERBATIM, r"‹(?!')(.+?)›")
 		)
 
 		descent = lambda *a: self.inline_parser(*a)
@@ -231,7 +232,9 @@ class WikiParser(object):
 			| Rule(SUBSCRIPT, r'_\{(?!~)(.+?)\}', descent=descent)
 			| Rule(SUPERSCRIPT, r'\^\{(?!~)(.+?)\}', descent=descent)
 			| Rule(STRIKE, r'~~(?!~)(.+?)~~', descent=descent)
-			| Rule(VERBATIM, r"''(?!')(.+?)''")
+			#T+ # Note that this rule appears again above.
+			#T! | Rule(VERBATIM, r"''(?!')(.+?)''")
+			| Rule(VERBATIM, r"‹(?!')(.+?)›")
 		)
 
 	def _init_intermediate_parser(self):
@@ -291,7 +294,7 @@ class WikiParser(object):
 				process=self.parse_object
 			),
 			Rule(HEADING,
-        #T! r'^( ==+ [\ \t]+ \S.*? ) [\ \t]* =* \n',		# "==== heading ===="
+				#T! r'^( ==+ [\ \t]+ \S.*? ) [\ \t]* =* \n',		# "==== heading ===="
 				r'^( =\*+ [ ]+ \S.* )\n',
 				process=self.parse_heading
 			),
@@ -316,7 +319,7 @@ class WikiParser(object):
 		#T! for i, c in enumerate(text):
 		#T!   if c != '=':
 		#T!   	break
-    #T{
+		#T{
 		assert text.startswith('=*')
 		for i, c in enumerate(text):
 			if i > 0 and c != '*': break
