@@ -214,9 +214,9 @@ class WikiParser(object):
 			| Rule(SUBSCRIPT, r'_\{(?!~)(.+?)\}', descent=descent)
 			| Rule(SUPERSCRIPT, r'\^\{(?!~)(.+?)\}', descent=descent)
 			| Rule(STRIKE, r'~~(?!~)(.+?)~~', descent=descent)
-			#T+ # Note that this rule appears again below.
-			#T! | Rule(VERBATIM, r"''(?!')(.+?)''")
-			| Rule(VERBATIM, r"‹(?!')(.+?)›")
+			| Rule(VERBATIM, r"''(?!')(.+?)''")
+			#TH+ # Note that this rule appears again below.
+			| Rule(VERBATIM_ZIMT, r"‹(?!')(.+?)›")
 		)
 
 		descent = lambda *a: self.inline_parser(*a)
@@ -232,9 +232,9 @@ class WikiParser(object):
 			| Rule(SUBSCRIPT, r'_\{(?!~)(.+?)\}', descent=descent)
 			| Rule(SUPERSCRIPT, r'\^\{(?!~)(.+?)\}', descent=descent)
 			| Rule(STRIKE, r'~~(?!~)(.+?)~~', descent=descent)
-			#T+ # Note that this rule appears again above.
-			#T! | Rule(VERBATIM, r"''(?!')(.+?)''")
-			| Rule(VERBATIM, r"‹(?!')(.+?)›")
+			| Rule(VERBATIM, r"''(?!')(.+?)''")
+			#TH+ # Note that this rule appears again above.
+			| Rule(VERBATIM_ZIMT, r"‹(?!')(.+?)›")
 		)
 
 	def _init_intermediate_parser(self):
@@ -294,10 +294,15 @@ class WikiParser(object):
 				process=self.parse_object
 			),
 			Rule(HEADING,
-				#T! r'^( ==+ [\ \t]+ \S.*? ) [\ \t]* =* \n',		# "==== heading ===="
-				r'^( =\*+ [ ]+ \S.* )\n',
+				r'^( ==+ [\ \t]+ \S.*? ) [\ \t]* =* \n',		# "==== heading ===="
 				process=self.parse_heading
 			),
+			#TH+{ # Zimt headings ‘=*’ to ‘=*****’
+			Rule(HEADING_ZIMT,
+				r'^( =\*+ [ ]+ \S.* )\n',
+				process=self.parse_heading_zimt
+			),
+			#TH+}
 			# standard table format
 			Rule(TABLE, r'''
 				^(\|.*\|) \s*? \n								# starting and ending with |
@@ -315,29 +320,37 @@ class WikiParser(object):
 
 	def parse_heading(self, builder, text):
 		'''Parse heading and determine it's level'''
-		#T! assert text.startswith('=')
-		#T! for i, c in enumerate(text):
-		#T!   if c != '=':
-		#T!   	break
-		#T{
+		assert text.startswith('=')
+		for i, c in enumerate(text):
+			if c != '=':
+				break
+
+		level = 7 - min(6, i)
+			# == is level 5
+			# === is level 4
+			# ...
+			# ======= is level 1
+
+		text = text[i:].lstrip() + '\n'
+
+		builder.start(HEADING, {'level': level})
+		self.inline_parser(builder, text)
+		builder.end(HEADING)
+
+	#TH+{ # Zimt headings ‘=*’ to ‘=*****’
+	def parse_heading_zimt(self, builder, text):
+		'''Parse heading and determine it's level'''
 		assert text.startswith('=*')
 		for i, c in enumerate(text):
 			if i > 0 and c != '*': break
-		#T}
 
-		#T! level = 7 - min(6, i)
-		#T!   # == is level 5
-		#T!   # === is level 4
-		#T!   # ...
-		#T!   # ======= is level 1
 		level = i - 1
-
-		#T! text = text[i:].lstrip() + '\n'
 		text = text[1:] + '\n'
 
 		builder.start(HEADING, {'level': level})
 		self.inline_parser(builder, text)
 		builder.end(HEADING)
+	#TH+}
 
 	@staticmethod
 	def parse_pre(builder, indent, text):
@@ -697,8 +710,8 @@ class Dumper(TextDumper):
 		STRONG: ('**', '**'),
 		MARK: ('__', '__'),
 		STRIKE: ('~~', '~~'),
-		#T! VERBATIM: ("''", "''"),
-		VERBATIM: ("‹", "›"),
+		VERBATIM: ("''", "''"),
+		VERBATIM_ZIMT: ("‹", "›"), #TH+
 		TAG: ('', ''), # No additional annotation (apart from the visible @)
 		SUBSCRIPT: ('_{', '}'),
 		SUPERSCRIPT: ('^{', '}'),
@@ -725,16 +738,24 @@ class Dumper(TextDumper):
 		return strings
 
 	def dump_h(self, tag, attrib, strings):
-		#T! # Wrap line with number of "=="
-		#T! level = int(attrib['level'])
-		#T! if level < 1:
-		#T!   level = 1
-		#T! elif level > 5:
-		#T!   level = 5
-		#T! tag = '=' * (7 - level)
-		#T! strings.insert(0, tag + ' ')
-		#T! strings.append(' ' + tag)
+		#TH+ # Comment out Zim headings
+		if False: #TH+
+			#TH-{
+			# Wrap line with number of "=="
+			level = int(attrib['level'])
+			if level < 1:
+				level = 1
+			elif level > 5:
+				level = 5
+			tag = '=' * (7 - level)
+			strings.insert(0, tag + ' ')
+			strings.append(' ' + tag)
+			#TH-}
+
+		#TH+{ # Zimt headings ‘=*’ to ‘=*****’
+		# ‘H1’ is shown as ‘* H1’, so add ‘=’ to get ‘=* H1’
 		strings.insert(0, '=')
+		#TH+}
 
 		return strings
 

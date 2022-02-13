@@ -114,6 +114,7 @@ FORMATTEDTEXT = 'zim-tree'
 FRAGMENT = 'zim-tree'
 
 HEADING = 'h'
+HEADING_ZIMT = 'h' #T+
 PARAGRAPH = 'p'
 VERBATIM_BLOCK = 'pre' # should be same as verbatim
 BLOCK = 'div'
@@ -129,6 +130,7 @@ EMPHASIS = 'emphasis' # TODO change to "em" to be in line with html
 STRONG = 'strong'
 MARK = 'mark'
 VERBATIM = 'code'
+VERBATIM_ZIMT = 'code' #TH+
 STRIKE = 'strike'
 SUBSCRIPT = 'sub'
 SUPERSCRIPT = 'sup'
