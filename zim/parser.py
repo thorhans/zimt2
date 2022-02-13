@@ -66,8 +66,9 @@ def fix_line_end(text):
 
 	return text
 
-
-def convert_space_to_tab(text, tabstop=4):
+#T+ # I do *not* want tabs.
+#T! def convert_space_to_tab(text, tabstop=4):
+def convert_space_to_tab(text, tabstop=1000000):
 	'''Convert spaces to tabs
 	@param text: the input text
 	@param tabstop: the number of spaces to represent a tab

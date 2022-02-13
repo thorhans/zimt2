@@ -1,0 +1,9 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2021-06-26T15:22:12+02:00
+
+=* TODO
+
+=* Bugs
+
+* Tables in Zim of 2020-05-06 are broken, they transform ‹x_{2}› to ‹<sub>1</sub>›.

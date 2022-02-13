@@ -1,0 +1,7 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2021-06-26T14:34:15+02:00
+
+=* Zimt notes
+
+* [[zim?Start|Zim's manual]]

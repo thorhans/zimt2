@@ -1,0 +1,18 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.4
+Creation-Date: 2021-06-26T15:24:54+02:00
+
+=* Config
+
+* Fonts
+	* AH uses:	Lucida Sans Unicode Normal 12
+	* ThH uses
+		* @ Hugin:	Lucida Sans Unicode Normal 10
+		* @ Ravn:		Lucida Sans Unicode Normal 9
+
+* List of notebooks
+	* On Windows: [[~\AppData\Roaming\zim\config\zim\notebooks.list]]
+		* where ~ = $USERPROFILE
+
+* List of symbols
+	* On Windows: [[~\AppData\Roaming\zim\config\zim\symbols.list]]

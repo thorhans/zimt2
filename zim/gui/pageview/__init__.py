@@ -240,7 +240,11 @@ PIXBUF_CHR = '\uFFFC'
 SCROLL_TO_MARK_MARGIN = 0.2
 
 # Regexes used for autoformatting
-heading_re = Re(r'^(={2,7})\s*(.*?)(\s=+)?$')
+#T! heading_re = Re(r'^(={2,7})\s*(.*?)(\s=+)?$')
+#T{
+heading_re = Re(r'^(=\*{1,6})\s*(.*)\s*$')
+heading2_re = Re(r'^(\*{1,6})\s*(.*)\s*$')
+#T]
 
 link_to_page_re = Re(r'''(
 	  [\w\.\-\(\)]*(?: :[\w\.\-\(\)]{2,} )+ (?: : | \#\w[\w_-]+)?
@@ -630,6 +634,7 @@ class TextBuffer(Gtk.TextBuffer):
 	}
 
 	# style attributes
+  #T+ # Change this with ‘indent’ in ‘zimt/data/style.conf’.
 	pixels_indent = 30 #: pixels indent for a single indent level
 	bullet_icon_size = Gtk.IconSize.MENU #: constant for icon size of checkboxes etc.
 
@@ -4907,7 +4912,8 @@ class TextView(Gtk.TextView):
 
 		if heading_re.match(line):
 			level = len(heading_re[1]) - 1
-			heading = heading_re[2]
+			#T! heading = heading_re[2]
+			heading = heading_re[0][1:]
 			mark = buffer.create_mark(None, end)
 			buffer.delete(start, end)
 			buffer.insert_with_tags_by_name(
@@ -7321,8 +7327,23 @@ class PageView(GSignalEmitterMixin, Gtk.VBox):
 		selected = False
 		mark = buffer.create_mark(None, buffer.get_insert_iter())
 
+		#T{
+		ishead = False
+		# It seems Zim now supports more than one text style.
+		# So I might have to change this.
+		old_format = buffer.get_textstyles()
+		if old_format == []:
+			old_format=""
+		else:
+			old_format = old_format[0]
+		#T}
+
 		if format in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'):
 			selected = self.autoselect(selectline=True)
+			#T{
+			ishead = True
+			start = buffer.get_insert_iter()
+			#T}
 		else:
 			# Check formatting is consistent left and right
 			iter = buffer.get_insert_iter()
@@ -7332,6 +7353,21 @@ class PageView(GSignalEmitterMixin, Gtk.VBox):
 				selected = self.autoselect(selectline=False)
 
 		buffer.toggle_textstyle(format)
+
+		#T{
+		if ishead or old_format in ('h1', 'h2', 'h3', 'h4', 'h5', 'h6'):
+			# Remove "*" and " ".
+			end = start.copy()
+			while end.get_char() in "* " and end.forward_char():
+				pass
+			buffer.delete(start, end)
+
+			# If the old format and the new format are identical,
+			# then remove the header.
+			if format != old_format:
+				level = int(format[1:])
+				buffer.insert_at_cursor("*" * level + " ")
+		#T}
 
 		if selected:
 			# If we keep the selection we can not continue typing

@@ -1,7 +1,7 @@
 [Notebook]
 version=0.4
-name=manual
-interwiki=
+name=Zim manual
+interwiki=zim
 home=Start
 icon=
 document_root=
