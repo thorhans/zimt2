@@ -42,7 +42,7 @@ sed -i "s/^=\+ Latest release: .*\$/===== Latest release: $NEW - $MONTH =====/" 
 echo "Updating debian/changelog"
 
 DEBNEW=${NEW/-/~/} # Need "~" for release candidates in debian version
-DEBDATE=`date +"%a, %d %b %Y %H:%M:%S %z"` #Thu, 28 Mar 2019 21:34:00 +0100
+DEBDATE=`date +"%a, %d %b %Y %H:%M:%S %z"` # Thu, 28 Mar 2019 21:34:00 +0100
 
 cat > ./debian/changelog << EOF
 zim ($DEBNEW) unstable; urgency=medium
