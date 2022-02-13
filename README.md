@@ -2,57 +2,7 @@
 Zimt - my variant of Zim
 ===========================
 
-Formatting
-===========================
-
-- Headers:
-
-    ```
-    =* H1
-    
-    =** H2
-    
-    =*** H3
-    
-    =**** H4
-    
-    =***** H5
-    ```
-
-- Numbered list:
-    
-    ```
-    1. One
-    2. Two
-    ```
-    
-- Unnumbered list:
-    
-    ```
-    * One
-      * Eleven
-    ```
-                            
-- Yet unsupported:
-    
-    ```
-    = definitions
-    ```
-
-
-Source changes
-===========================
-
-- Search for ‘#T’, e.g. ‘#T+’, ‘T-’, ...
-
-- Style
-
-  - Edit ./data/style.conf
-  - On Windows, your settings are in C:\Users\arvid\AppData\Roaming\zim
-
-
-End
-===========================
+See ‘data/zimt_notes’ for differences between Zim and Zimt.
 
 The original README follows 
 

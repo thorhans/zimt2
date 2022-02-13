@@ -1,0 +1,43 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2022-02-13T22:24:05+00:00
+
+=* Block level
+
+=** Headers
+
+Zimt headers start with ‹=*›, ‹=**›, etc..
+The ‹=› is not shown, the stars ‹*› are shown.
+Zim headers are also shown correctly.
+
+'''
+      Zimt       Zim
+  H1  =* H1      ====== H1 ======
+  H2  =** H2     ===== H2 =====
+  H3  =*** H3    ==== H3 ====
+  H4  =**** H4   === H4 ===
+  H5  =***** H5  == H5 ==
+'''
+
+
+=**  Numbered list
+    
+'''
+  1. One
+  2. Two
+'''
+    
+
+=** Unnumbered list
+    
+'''
+  * One
+    * Eleven
+'''
+                            
+
+=** Yet unsupported
+    
+'''
+  = definition
+'''

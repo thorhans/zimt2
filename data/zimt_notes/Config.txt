@@ -1,5 +1,5 @@
 Content-Type: text/x-zim-wiki
-Wiki-Format: zim 0.4
+Wiki-Format: zim 0.6
 Creation-Date: 2021-06-26T15:24:54+02:00
 
 =* Config
@@ -16,3 +16,9 @@ Creation-Date: 2021-06-26T15:24:54+02:00
 
 * List of symbols
 	* On Windows: [[~\AppData\Roaming\zim\config\zim\symbols.list]]
+
+* Styles
+	* Edit [[./data/style.conf]]
+	* On Windows, your settings are in
+			C:\Users\arvid\AppData\Roaming\zim
+

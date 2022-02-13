@@ -1,0 +1,25 @@
+Content-Type: text/x-zim-wiki
+Wiki-Format: zim 0.6
+Creation-Date: 2022-02-13T21:23:02+00:00
+
+=* Changes
+'''
+
+- Search for ‘#TH’, e.g. 
+  - ‘#TH+’ (added)
+  - ‘#TH-’ (removed)
+  - ‘#TH!’ (changed)
+
+Changed files:
+
+- data/
+  - style.conf
+
+- zim/
+  - formats/
+    - wiki.py
+  - gui/
+    - pageview/
+	- __init__.py
+  - parser.py
+'''
