@@ -1,5 +1,7 @@
 [Notebook]
 version=0.4
+#TH! name=manual
+#TH! interwiki=
 name=Zim manual
 interwiki=zim
 home=Start

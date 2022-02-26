@@ -5,8 +5,8 @@ Creation-Date: 2022-02-13T21:23:02+00:00
 =* Changes
 
 My changes in the source code:
-'''
 
+'''
 - Search for ‘#TH’, e.g. 
   - ‘#TH+’ (added)
   - ‘#TH-’ (removed)
@@ -15,13 +15,25 @@ My changes in the source code:
 Changed files:
 
 - data/
+  - templates/
+    - wiki/
+      - Default.txt
   - style.conf
+
+- tools/
+  - create_release.sh
+
+- translations/
+  Removed everything except ‘en_GB.po’ and ‘zim.pot’.
 
 - zim/
   - formats/
+    - __init__py
     - wiki.py
   - gui/
     - pageview/
-	- __init__.py
+      - __init__.py
   - parser.py
+
+- README.md
 '''
