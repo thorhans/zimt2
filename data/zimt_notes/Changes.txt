@@ -3,6 +3,8 @@ Wiki-Format: zim 0.6
 Creation-Date: 2022-02-13T21:23:02+00:00
 
 =* Changes
+
+My changes in the source code:
 '''
 
 - Search for ‘#TH’, e.g. 
