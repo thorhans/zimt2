@@ -269,7 +269,10 @@ class UIActions(object):
 		if not self.notebook.index.is_uptodate:
 			self.check_and_update_index(update_only=True)
 
-	@action(_('_Search...'), '<shift><Primary>F', verb_icon='edit-find-symbolic') # T: Menu item
+	#TH+ # I have not understood localization yet, so just change the string.
+	#TH+
+	#TH! @action(_('_Search...'), '<shift><Primary>F', verb_icon='edit-find-symbolic') # T: Menu item
+	@action(_('_Search in pages...'), '<shift><Primary>F', verb_icon='edit-find-symbolic') # T: Menu item
 	def show_search(self, query=None, focus_results=False):
 		'''Menu action to show the L{SearchDialog}
 		@param query: the search query to show

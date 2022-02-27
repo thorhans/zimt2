@@ -33,6 +33,7 @@ Changed files:
   - gui/
     - pageview/
       - __init__.py
+    - uiactions.py
   - parser.py
 
 - README.md

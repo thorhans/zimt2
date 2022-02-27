@@ -7430,7 +7430,10 @@ class PageView(GSignalEmitterMixin, Gtk.VBox):
 		buffer.finder.find(string, flags)
 		self.textview.scroll_to_mark(buffer.get_insert(), SCROLL_TO_MARK_MARGIN, False, 0, 0)
 
-	@action(_('_Find...'), '<Primary>F', alt_accelerator='<Primary>F3') # T: Menu item
+	#TH+ # I have not understood localization yet, so just change the string.
+	#TH+
+	#TH! @action(_('_Find...'), '<Primary>F', alt_accelerator='<Primary>F3') # T: Menu item
+	@action(_('_Find in this page...'), '<Primary>F', alt_accelerator='<Primary>F3') # T: Menu item
 	def show_find(self, string=None, flags=0, highlight=False):
 		'''Show the L{FindBar} widget
 
