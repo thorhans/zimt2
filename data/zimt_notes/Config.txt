@@ -20,5 +20,5 @@ Creation-Date: 2021-06-26T15:24:54+02:00
 * Styles
 	* Edit [[./data/style.conf]]
 	* On Windows, your settings are in
-			C:\Users\arvid\AppData\Roaming\zim
+			C:\Users\thh\AppData\Roaming\zim
 
