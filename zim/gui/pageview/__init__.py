@@ -1654,10 +1654,13 @@ class TextBuffer(Gtk.TextBuffer):
 
 		with self.user_action:
 			if bullet == BULLET:
+				#TH+ # Always insert a tab after bullet.
 				if raw:
-					self.insert_at_cursor('\u2022')
+					#TH! self.insert_at_cursor('\u2022')
+					self.insert_at_cursor('\u2022\t')
 				else:
-					self.insert_at_cursor('\u2022 ')
+					#TH! self.insert_at_cursor('\u2022 ')
+					self.insert_at_cursor('\u2022\t')
 			elif bullet in bullet_types:
 				# Insert icon
 				stock = bullet_types[bullet]
@@ -1670,8 +1673,10 @@ class TextBuffer(Gtk.TextBuffer):
 				pixbuf.zim_attrib = {'stock': stock}
 				self.insert_pixbuf(self.get_insert_iter(), pixbuf)
 
-				if not raw:
-					self.insert_at_cursor(' ')
+				#TH+ # Always insert a tab after bullet.
+				#TH- if not raw:
+				#TH- 	self.insert_at_cursor(' ')
+				self.insert_at_cursor('\t')
 			else:
 				# Numbered
 				if raw:
@@ -2179,8 +2184,25 @@ class TextBuffer(Gtk.TextBuffer):
 					stylename = 'numbered-list'
 				else:
 					raise AssertionError('BUG: Unknown bullet type')
-				margin = 12 + self.pixels_indent * level # offset from left side for all lines
-				indent = -12 # offset for first line (bullet)
+				#TH # I want the 2nd line of a bullet list indented to a tab stop.
+
+				#TH- margin = 12 + self.pixels_indent * level # offset from left side for all lines
+				#TH- indent = -12 # offset for first line (bullet)
+
+				#TH+{
+				indent = -self.pixels_indent # offset for first line (bullet)
+
+				# (1) To indent the 2nd line of a bullet list to a tab stop, multiply
+				#     ‘self.pixels_indent’ with ‘level + 1’.
+				# 
+				# (2) On Ravn, I have to add 10 to the margin to make margins and tabs
+				#     coincide.
+				#
+				# (3) If ‘indent’ is negative, you have to add it to the margin.
+				# 
+				margin = self.pixels_indent * (level + 1) + 10 + (indent if indent < 0 else 0)
+				#TH+}
+
 				if dir == 'LTR':
 					tag = self.create_tag(name,
 						left_margin=margin, indent=indent,
@@ -2190,7 +2212,10 @@ class TextBuffer(Gtk.TextBuffer):
 						right_margin=margin, indent=indent,
 						**self.tag_styles[stylename])
 			else:
-				margin = 12 + self.pixels_indent * level
+				#TH+ # On Ravn, I have to add 10 to the margin to make margins and tabs coincide.
+				#TH! margin = 12 + self.pixels_indent * level
+				margin = self.pixels_indent * level + 10
+
 				# Note: I would think the + 12 is not needed here, but
 				# the effect in the view is different than expected,
 				# putting text all the way to the left against the
